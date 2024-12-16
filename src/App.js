@@ -9,17 +9,26 @@ import FlightList from './components/FlightList';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import UpdateFlightForm from './components/UpdateFlight';
 import Admin from './components/Admin';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import AuthProvider from './components/AuthProvider';
+import WeatherPage from './components/WeatherPage';
 
 function App() {
   return (
     <div className="App">
       <Router>
+        <AuthProvider>
       <Routes>
   <Route path="/admin" element={<Admin />} />
   <Route path="/admin/create" element={<CreateFlight />} />
   <Route path="/admin/update/:id" element={<UpdateFlightForm />} />
   <Route path="/admin/read" element={<FlightList />} />
+  <Route path="/login" element={<Login />} />
+  <Route path="/signup" element={<Signup />} />
+  <Route path="/weather/:city" element={<WeatherPage />} />
 </Routes>
+</AuthProvider>
     </Router>
     </div>
   );
