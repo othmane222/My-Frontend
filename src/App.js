@@ -13,6 +13,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import AuthProvider from './components/AuthProvider';
 import WeatherPage from './components/WeatherPage';
+import ClaimForm from './components/ClaimForm';
 
 function App() {
   return (
@@ -27,6 +28,8 @@ function App() {
   <Route path="/login" element={<Login />} />
   <Route path="/signup" element={<Signup />} />
   <Route path="/weather/:city" element={<WeatherPage />} />
+  <Route path="/claims/create" element={<ClaimForm />} /> {/* Route for creating a claim */}
+
 </Routes>
 </AuthProvider>
     </Router>
