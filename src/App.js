@@ -20,6 +20,7 @@ import ReviewForm from './components/ReviewForm';
 import ReservationForm from './components/ReservationForm';
 import ReservationList from './components/ReservationList';
 import PassengerList from './components/PassengerList';
+import UserManagement from './components/UserManagement';
 
 function App() {
   return (
@@ -40,6 +41,8 @@ function App() {
   <Route path="/create-reservation" element={<ReservationForm />} />
   <Route path="/reservations" element={<ReservationList />} />
   <Route path="/passengers" element={<PassengerList />} />
+  <Route path="/users" element={<UserManagement />} />
+
 
 </Routes>
 </AuthProvider>
