@@ -1,27 +1,15 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import axios from 'axios';
 
 const ReservationForm = () => {
   const [formData, setFormData] = useState({
-    flightId: "",
-    flightClassType: "",
+    flightId: '',
+    flightClassType: '',
     passengers: [],
     luggage: [],
   });
 
-  const [passenger, setPassenger] = useState({
-    name: "",
-    email: "",
-    cin: "",
-    password: "",
-    passportNumber: "",
-    age: "",
-    passengerType: "",
-  });
-
-  const [luggage, setLuggage] = useState({ weight: "" });
-
-  const [responseMessage, setResponseMessage] = useState("");
+  const [responseMessage, setResponseMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,79 +19,89 @@ const ReservationForm = () => {
     }));
   };
 
-  const handlePassengerChange = (e) => {
-    const { name, value } = e.target;
-    setPassenger((prevPassenger) => ({
-      ...prevPassenger,
-      [name]: value,
+  const handlePassengerChange = (index, field, value) => {
+    const updatedPassengers = [...formData.passengers];
+    updatedPassengers[index] = {
+      ...updatedPassengers[index],
+      [field]: value,
+    };
+    setFormData((prevData) => ({
+      ...prevData,
+      passengers: updatedPassengers,
     }));
   };
 
-  const handleLuggageChange = (e) => {
-    const { name, value } = e.target;
-    setLuggage((prevLuggage) => ({
-      ...prevLuggage,
-      [name]: value,
+  const addPassenger = () => {
+    setFormData((prevData) => ({
+      ...prevData,
+      passengers: [
+        ...prevData.passengers,
+        {
+          name: '',
+          email: '',
+          cin: '',
+          password: '',
+          passportNumber: '',
+          age: '',
+          passengerType: '',
+        },
+      ],
     }));
-  };
-
-  const addPassenger = async () => {
-    try {
-      // Check if passenger exists using CIN
-      const response = await axios.get(
-        `http://localhost:9093/users?cin=${passenger.cin}`
-      );
-
-      if (response.data && response.data.length > 0) {
-        console.log("Passenger already exists:", response.data);
-      } else {
-        // Create the passenger if they don't exist
-        await axios.post("http://localhost:9093/users", {
-          email: passenger.email,
-          password: passenger.password,
-          cin: passenger.cin,
-        });
-        console.log("Passenger created successfully.");
-      }
-
-      // Add passenger to the reservation form
-      setFormData((prevData) => ({
-        ...prevData,
-        passengers: [...prevData.passengers, passenger],
-      }));
-      setPassenger({
-        name: "",
-        email: "",
-        cin: "",
-        password: "",
-        passportNumber: "",
-        age: "",
-        passengerType: "",
-      }); // Reset passenger input
-    } catch (error) {
-      console.error("Error checking or creating passenger:", error.response?.data || error.message);
-      alert("Failed to add passenger. Please check the details and try again.");
-    }
   };
 
   const addLuggage = () => {
     setFormData((prevData) => ({
       ...prevData,
-      luggage: [...prevData.luggage, luggage],
+      luggage: [...prevData.luggage, { weight: '' }],
     }));
-    setLuggage({ weight: "" }); // Reset luggage input
+  };
+
+  const handleLuggageChange = (index, value) => {
+    const updatedLuggage = [...formData.luggage];
+    updatedLuggage[index] = { weight: value };
+    setFormData((prevData) => ({
+      ...prevData,
+      luggage: updatedLuggage,
+    }));
+  };
+
+  const createUserIfNotExists = async (cin, userDetails) => {
+    try {
+      const checkResponse = await axios.get(`http://localhost:9093/users/${cin}`);
+      if (checkResponse.status === 200) {
+        return checkResponse.data;
+      }
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        const createResponse = await axios.post('http://localhost:9093/users', userDetails, {
+          headers: { 'Content-Type': 'application/json' },
+        });
+        return createResponse.data;
+      } else {
+        throw new Error('Error checking user existence');
+      }
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8081/api/reservations", formData, {
-        headers: { "Content-Type": "application/json" },
+      for (const passenger of formData.passengers) {
+        await createUserIfNotExists(passenger.cin, {
+          email: passenger.email,
+          password: passenger.password,
+          cin: passenger.cin,
+        });
+      }
+
+      const response = await axios.post('http://localhost:8081/api/reservations', formData, {
+        headers: { 'Content-Type': 'application/json' },
       });
-      setResponseMessage("Reservation created successfully!");
+
+      setResponseMessage('Reservation created successfully!');
       console.log(response.data);
     } catch (error) {
-      setResponseMessage("Error creating reservation. Please try again.");
+      setResponseMessage('Error creating reservation. Please try again.');
       console.error(error);
     }
   };
@@ -136,102 +134,98 @@ const ReservationForm = () => {
             <option value="FIRST">First</option>
           </select>
         </label>
-        <div>
-          <h3>Add Passenger</h3>
-          <label>
-            Name:
-            <input
-              type="text"
-              name="name"
-              value={passenger.name}
-              onChange={handlePassengerChange}
-              required
-            />
-          </label>
-          <label>
-            Email:
-            <input
-              type="email"
-              name="email"
-              value={passenger.email}
-              onChange={handlePassengerChange}
-              required
-            />
-          </label>
-          <label>
-            CIN:
-            <input
-              type="text"
-              name="cin"
-              value={passenger.cin}
-              onChange={handlePassengerChange}
-              required
-            />
-          </label>
-          <label>
-            Password:
-            <input
-              type="password"
-              name="password"
-              value={passenger.password}
-              onChange={handlePassengerChange}
-              required
-            />
-          </label>
-          <label>
-            Passport Number:
-            <input
-              type="text"
-              name="passportNumber"
-              value={passenger.passportNumber}
-              onChange={handlePassengerChange}
-              required
-            />
-          </label>
-          <label>
-            Age:
-            <input
-              type="number"
-              name="age"
-              value={passenger.age}
-              onChange={handlePassengerChange}
-              required
-            />
-          </label>
-          <label>
-            Passenger Type:
-            <select
-              name="passengerType"
-              value={passenger.passengerType}
-              onChange={handlePassengerChange}
-              required
-            >
-              <option value="">Select Type</option>
-              <option value="ADULT">Adult</option>
-              <option value="CHILD">Child</option>
-              <option value="INFANT">Infant</option>
-            </select>
-          </label>
-          <button type="button" onClick={addPassenger}>
-            Add Passenger
-          </button>
-        </div>
-        <div>
-          <h3>Add Luggage</h3>
-          <label>
-            Weight:
-            <input
-              type="number"
-              name="weight"
-              value={luggage.weight}
-              onChange={handleLuggageChange}
-              required
-            />
-          </label>
-          <button type="button" onClick={addLuggage}>
-            Add Luggage
-          </button>
-        </div>
+        <h3>Passengers</h3>
+        {formData.passengers.map((passenger, index) => (
+          <div key={index}>
+            <label>
+              Name:
+              <input
+                type="text"
+                value={passenger.name}
+                onChange={(e) => handlePassengerChange(index, 'name', e.target.value)}
+                required
+              />
+            </label>
+            <label>
+              Email:
+              <input
+                type="email"
+                value={passenger.email}
+                onChange={(e) => handlePassengerChange(index, 'email', e.target.value)}
+                required
+              />
+            </label>
+            <label>
+              CIN:
+              <input
+                type="text"
+                value={passenger.cin}
+                onChange={(e) => handlePassengerChange(index, 'cin', e.target.value)}
+                required
+              />
+            </label>
+            <label>
+              Password:
+              <input
+                type="password"
+                value={passenger.password}
+                onChange={(e) => handlePassengerChange(index, 'password', e.target.value)}
+                required
+              />
+            </label>
+            <label>
+              Passport Number:
+              <input
+                type="text"
+                value={passenger.passportNumber}
+                onChange={(e) => handlePassengerChange(index, 'passportNumber', e.target.value)}
+                required
+              />
+            </label>
+            <label>
+              Age:
+              <input
+                type="number"
+                value={passenger.age}
+                onChange={(e) => handlePassengerChange(index, 'age', e.target.value)}
+                required
+              />
+            </label>
+            <label>
+              Passenger Type:
+              <select
+                value={passenger.passengerType}
+                onChange={(e) => handlePassengerChange(index, 'passengerType', e.target.value)}
+                required
+              >
+                <option value="">Select Type</option>
+                <option value="ADULT">Adult</option>
+                <option value="CHILD">Child</option>
+                <option value="INFANT">Infant</option>
+              </select>
+            </label>
+          </div>
+        ))}
+        <button type="button" onClick={addPassenger}>
+          Add Passenger
+        </button>
+        <h3>Luggage</h3>
+        {formData.luggage.map((luggage, index) => (
+          <div key={index}>
+            <label>
+              Weight:
+              <input
+                type="number"
+                value={luggage.weight}
+                onChange={(e) => handleLuggageChange(index, e.target.value)}
+                required
+              />
+            </label>
+          </div>
+        ))}
+        <button type="button" onClick={addLuggage}>
+          Add Luggage
+        </button>
         <button type="submit">Submit Reservation</button>
       </form>
       {responseMessage && <p>{responseMessage}</p>}
