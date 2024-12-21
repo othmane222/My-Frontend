@@ -16,6 +16,10 @@ import WeatherPage from './components/WeatherPage';
 import ClaimForm from './components/ClaimForm';
 import PasswordRecoveryForm from './components/PasswordRecoveryForm';
 import CouponApp from './components/CouponApp';
+import ReviewForm from './components/ReviewForm';
+import ReservationForm from './components/ReservationForm';
+import ReservationList from './components/ReservationList';
+import PassengerList from './components/PassengerList';
 
 function App() {
   return (
@@ -32,7 +36,10 @@ function App() {
   <Route path="/weather/:city" element={<WeatherPage />} />
   <Route path="/claims/create" element={<ClaimForm />} /> 
   <Route path="/password-recovery" element={<PasswordRecoveryForm />} />
-  {/* Route for creating a claim */}
+  <Route path="/reviews" element={<ReviewForm />} />
+  <Route path="/create-reservation" element={<ReservationForm />} />
+  <Route path="/reservations" element={<ReservationList />} />
+  <Route path="/passengers" element={<PassengerList />} />
 
 </Routes>
 </AuthProvider>
