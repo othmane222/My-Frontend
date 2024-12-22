@@ -1,9 +1,11 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import Footer from './components/Footer';
-import SearchFlight from './components/SearchFlight';
+import SearchFlight from './components/FlightSearch';
 import CreateFlight from './components/CreateFlight';
 import FlightList from './components/FlightList';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -21,6 +23,10 @@ import ReservationForm from './components/ReservationForm';
 import ReservationList from './components/ReservationList';
 import PassengerList from './components/PassengerList';
 import UserManagement from './components/UserManagement';
+import Dashboard from './components/Dashboard';
+import FlightSearch from './components/FlightSearch';
+import ExploreWorld from './components/ExploreWorld';
+
 
 function App() {
   return (
@@ -28,6 +34,7 @@ function App() {
       <Router>
         <AuthProvider>
       <Routes>
+      <Route path="/" element={<><Navbar/><FlightSearch/><ExploreWorld/></>} />
   <Route path="/admin" element={<Admin />} />
   <Route path="/admin/create" element={<CreateFlight />} />
   <Route path="/admin/update/:id" element={<UpdateFlightForm />} />
