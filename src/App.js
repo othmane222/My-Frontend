@@ -34,7 +34,7 @@ function App() {
       <Router>
         <AuthProvider>
       <Routes>
-      <Route path="/" element={<><Navbar/><FlightSearch/><ExploreWorld/></>} />
+      <Route path="/" element={<><Navbar/><FlightSearch/><ExploreWorld/><Footer/></>} />
   <Route path="/admin" element={<Admin />} />
   <Route path="/admin/create" element={<CreateFlight />} />
   <Route path="/admin/update/:id" element={<UpdateFlightForm />} />

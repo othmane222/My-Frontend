@@ -1,0 +1,54 @@
+footer {
+    background-color: #445E75; /* Midnight Haze */
+    color: #DBD3A6; /* Desert Sand */
+    padding: 20px 0;
+    font-size: 14px;
+  }
+  
+  footer a {
+    color: #DBD3A6;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  footer a:hover {
+    color: #FFFFFF; /* Lightens the link color on hover */
+  }
+  
+  footer .list-unstyled li {
+    margin-bottom: 5px;
+  }
+  
+  footer .list-unstyled li a {
+    font-size: 13px;
+  }
+  
+  footer img {
+    width: 40px;
+    height: auto;
+    margin-right: 10px;
+  }
+  
+  footer img:last-child {
+    margin-right: 0;
+  }
+  
+  footer .container p {
+    font-size: 12px;
+    margin: 0 0 10px;
+  }
+  
+  @media (max-width: 768px) {
+    footer .text-md-end {
+      text-align: center !important;
+    }
+  
+    footer .col-md-4 {
+      margin-bottom: 20px;
+    }
+  
+    footer .col-md-4 img {
+      margin-bottom: 10px;
+    }
+  }
+  
