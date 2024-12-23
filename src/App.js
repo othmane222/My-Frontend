@@ -26,6 +26,8 @@ import UserManagement from './components/UserManagement';
 import Dashboard from './components/Dashboard';
 import FlightSearch from './components/FlightSearch';
 import ExploreWorld from './components/ExploreWorld';
+import UsefulLinks from './components/UsefulLinks';
+import { Help } from '@mui/icons-material';
 
 
 function App() {
@@ -34,7 +36,7 @@ function App() {
       <Router>
         <AuthProvider>
       <Routes>
-      <Route path="/" element={<><Navbar/><FlightSearch/><ExploreWorld/><Footer/></>} />
+      <Route path="/" element={<><Navbar/><FlightSearch/><ExploreWorld/><UsefulLinks/><Footer/></>} />
   <Route path="/admin" element={<Admin />} />
   <Route path="/admin/create" element={<CreateFlight />} />
   <Route path="/admin/update/:id" element={<UpdateFlightForm />} />
@@ -44,11 +46,12 @@ function App() {
   <Route path="/weather/:city" element={<WeatherPage />} />
   <Route path="/claims/create" element={<ClaimForm />} /> 
   <Route path="/password-recovery" element={<PasswordRecoveryForm />} />
-  <Route path="/reviews" element={<ReviewForm />} />
+  <Route path="/reviews" element={<><Navbar/><ReviewForm /><Footer/></>} />
   <Route path="/create-reservation" element={<ReservationForm />} />
   <Route path="/reservations" element={<ReservationList />} />
   <Route path="/passengers" element={<PassengerList />} />
   <Route path="/users" element={<UserManagement />} />
+  <Route path="/help" element={<><Navbar/><Help /><Footer/></>} />
 
 
 </Routes>

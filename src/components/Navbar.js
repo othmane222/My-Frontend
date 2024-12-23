@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
@@ -10,20 +11,18 @@ const Navbar = () => {
       }}
     >
       <div className="container">
-        {/* Company Name */}
-        <a
+        <Link
           className="navbar-brand"
-          href="#"
+          to="/"
           style={{
-            color: '#F1EFE5', // Alabaster
+            color: '#F1EFE5',
             fontSize: '1.5rem',
             fontWeight: 'bold',
           }}
         >
           MyCompany
-        </a>
+        </Link>
 
-        {/* Navbar Toggler */}
         <button
           className="navbar-toggler"
           type="button"
@@ -37,7 +36,7 @@ const Navbar = () => {
           <span
             className="navbar-toggler-icon"
             style={{
-              backgroundColor: '#F1EFE5', // Alabaster
+              backgroundColor: '#F1EFE5',
               borderRadius: '50%',
               display: 'block',
               width: '20px',
@@ -46,59 +45,58 @@ const Navbar = () => {
           ></span>
         </button>
 
-        {/* Navbar Links */}
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <a
+              <Link
                 className="nav-link"
-                href="#"
+                to="/reviews"
                 style={{
-                  color: '#F1EFE5', // Alabaster
+                  color: '#F1EFE5',
                   fontWeight: '500',
                 }}
               >
-                FAQs
-              </a>
+                Review
+              </Link>
             </li>
             <li className="nav-item">
-              <a
+              <Link
                 className="nav-link"
-                href="#"
+                to="/help"
                 style={{
-                  color: '#F1EFE5', // Alabaster
+                  color: '#F1EFE5',
                   fontWeight: '500',
                 }}
               >
                 Help
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a
+              <Link
                 className="nav-link"
-                href="#"
+                to="/language"
                 style={{
-                  color: '#F1EFE5', // Alabaster
+                  color: '#F1EFE5',
                   fontWeight: '500',
                 }}
               >
                 Language
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a
+              <Link
                 className="btn"
-                href="#"
+                to="/login"
                 style={{
-                  backgroundColor: '#F1EFE5', // Alabaster
-                  color: '#445E75', // Midnight Haze
+                  backgroundColor: '#F1EFE5',
+                  color: '#445E75',
                   fontWeight: '500',
                   padding: '5px 20px',
                   borderRadius: '5px',
                 }}
               >
                 Login
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

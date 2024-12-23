@@ -1,0 +1,31 @@
+.useful-links {
+    background-color: #F1EFE5; /* Light background for contrast */
+    color: #445E75; /* Midnight Haze for text */
+  }
+  
+  .useful-links h5 {
+    font-weight: bold;
+    color: #445E75;
+  }
+  
+  .useful-links ul {
+    padding-left: 0;
+    list-style: none;
+  }
+  
+  .useful-links ul li {
+    margin-bottom: 8px;
+  }
+  
+  .useful-links .store-badge {
+    width: 150px;
+    height: auto;
+    margin: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .useful-links .store-badge {
+      width: 120px;
+    }
+  }
+  
