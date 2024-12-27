@@ -86,7 +86,7 @@ const Navbar = () => {
             <li className="nav-item">
               <Link
                 className="btn"
-                to="/login"
+                to="/signup"
                 style={{
                   backgroundColor: '#F1EFE5',
                   color: '#445E75',

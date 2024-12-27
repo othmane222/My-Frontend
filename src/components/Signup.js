@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+// Ensure credentials are included globally for Axios requests
+axios.defaults.withCredentials = true;
+
 const Signup = () => {
   const [cin, setCin] = useState("");
   const [email, setEmail] = useState("");
@@ -21,10 +24,11 @@ const Signup = () => {
 
     try {
       const response = await axios.post("http://localhost:9093/users", newUser, {
+        baseURL: 'http://localhost:9093',
+    withCredentials: true,
         headers: {
           "Content-Type": "application/json",
         },
-        withCredentials: true, // Ensures credentials (if needed) are sent
       });
 
       if (response.status === 201) {

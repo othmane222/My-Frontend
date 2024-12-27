@@ -1,4 +1,5 @@
 import React from 'react';
+import './Help.css'; // Import the styling
 
 const Help = () => {
   const links = [
@@ -11,12 +12,12 @@ const Help = () => {
   ];
 
   return (
-    <div className="container my-5">
-      <h2 className="text-center mb-4">Help</h2>
-      <ul className="list-group">
+    <div className="help-container">
+      <h2 className="help-title">Help</h2>
+      <ul className="help-list">
         {links.map((link, index) => (
-          <li key={index} className="list-group-item">
-            <a href={link.url} style={{ textDecoration: 'none', color: '#445E75' }}>
+          <li key={index} className="help-item">
+            <a href={link.url} className="help-link">
               {link.text}
             </a>
           </li>

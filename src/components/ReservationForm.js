@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../Styles/ReservationForm.css';
+import { useParams } from 'react-router-dom';
 
 const ReservationForm = () => {
+  const { flightId: flightIdFromUrl } = useParams(); // Get flightId from URL
   const [formData, setFormData] = useState({
     flightId: '',        // Store the selected flight ID
     flightClassType: '',
@@ -12,20 +14,32 @@ const ReservationForm = () => {
 
   const [responseMessage, setResponseMessage] = useState('');
   const [flights, setFlights] = useState([]); // State to store available flights
+  const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []); // Retrieve cart from localStorage
 
   // Fetch available flights from the backend
   useEffect(() => {
     const fetchFlights = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/flights');
-        console.log('Fetched Flights:', response.data); // Log the fetched flights to debug
-        setFlights(response.data); // Store flights in state
+        setFlights(response.data);
+  
+        if (flightIdFromUrl) {
+          const matchedFlight = response.data.find(
+            (flight) => flight.idFlight === parseInt(flightIdFromUrl)
+          );
+          if (matchedFlight) {
+            setFormData((prevData) => ({
+              ...prevData,
+              flightId: matchedFlight.idFlight,
+            }));
+          }
+        }
       } catch (error) {
         console.error('Error fetching flights:', error);
       }
     };
     fetchFlights();
-  }, []);
+  }, [flightIdFromUrl]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -82,19 +96,15 @@ const ReservationForm = () => {
   };
 
   const handleFlightChange = (e) => {
-    // Find the selected flight using the index value from the event
     const selectedFlight = flights.find(flight => `${flight.departure} to ${flight.destination}` === e.target.value);
-  
-    console.log('Selected Flight:', selectedFlight); // Log to check if we are finding the correct flight
   
     if (selectedFlight) {
       setFormData((prevData) => ({
         ...prevData,
-        flightId: selectedFlight.idFlight,  // Update formData with flightId
+        flightId: selectedFlight.idFlight,
       }));
     }
   };
-  
 
   const createUserIfNotExists = async (cin, userDetails) => {
     try {
@@ -114,32 +124,38 @@ const ReservationForm = () => {
     }
   };
 
+  // Add reservation to the cart
+  const addToCart = (reservation) => {
+    const updatedCart = [...cart, reservation];
+    setCart(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart)); // Store updated cart in localStorage
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!formData.flightId) {
       setResponseMessage('Please select a flight.');
       return;
     }
-  
+
     try {
-      console.log('Submitting with flightId:', formData.flightId);
-  
-      // Submit the form data
       const response = await axios.post('http://localhost:8081/api/reservations', formData, {
         headers: { 'Content-Type': 'application/json' },
       });
-  
+
       setResponseMessage('Reservation created successfully!');
       console.log(response.data);
+
+      // Add the reservation to the cart after it's successfully created
+      addToCart(response.data);
     } catch (error) {
       setResponseMessage('Error creating reservation. Please try again.');
       console.error(error);
     }
   };
-  
-  
+
   return (
     <div className="reservation-form">
       <h2>Create a Reservation</h2>
@@ -147,25 +163,23 @@ const ReservationForm = () => {
         <div className="form-group">
           <label>Flight ID:</label>
           <select
-  name="flightId"
-  value={formData.flightId} // Bind the selected flightId to formData
-  onChange={(e) => 
-    setFormData((prevData) => ({
-      ...prevData,
-      flightId: e.target.value, // Directly update flightId
-    }))
-  }
-  required
->
-  <option value="">Select Flight</option>
-  {flights.map((flight) => (
-    <option key={flight.idFlight} value={flight.idFlight}>
-      {`${flight.departure} to ${flight.destination} (ID: ${flight.idFlight})`}
-    </option>
-  ))}
-</select>
-
-
+            name="flightId"
+            value={formData.flightId}
+            onChange={(e) =>
+              setFormData((prevData) => ({
+                ...prevData,
+                flightId: e.target.value,
+              }))
+            }
+            required
+          >
+            <option value="">Select Flight</option>
+            {flights.map((flight) => (
+              <option key={flight.idFlight} value={flight.idFlight}>
+                {`${flight.departure} to ${flight.destination} (ID: ${flight.idFlight})`}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="form-group">

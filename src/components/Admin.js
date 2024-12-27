@@ -70,7 +70,7 @@ const Admin = () => {
       return;
     }
     try {
-      await axios.delete(`http://localhost:8083/api/coupons/${deleteId}`);
+      await axios.delete(`http://localhost:8090/api/coupons/${deleteId}`);
       alert(`Coupon avec l'ID ${deleteId} supprimé avec succès.`);
       setDeleteId('');
     } catch (error) {
@@ -85,7 +85,7 @@ const Admin = () => {
       return;
     }
     try {
-      await axios.put(`http://localhost:8083/api/coupons/${updateId}`, {
+      await axios.put(`http://localhost:8090/api/coupons/${updateId}`, {
         code: couponCode,
         expirationDate: expirationDate,
         discountPercentage: parseFloat(discount),
@@ -103,7 +103,7 @@ const Admin = () => {
 
   const getAllCoupons = async () => {
     try {
-      const response = await axios.get('http://localhost:8083/api/coupons');
+      const response = await axios.get('http://localhost:8090/api/coupons');
       setCoupons(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération des coupons :', error);

@@ -1,0 +1,37 @@
+.help-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .help-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #445e75;
+    margin-bottom: 20px;
+  }
+  
+  .help-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .help-item {
+    margin: 10px 0;
+  }
+  
+  .help-link {
+    text-decoration: none;
+    color: #445e75;
+    font-size: 1.2rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  .help-link:hover {
+    color: #1a73e8;
+  }
+  

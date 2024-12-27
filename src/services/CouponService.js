@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8083/api/coupons';
+const API_BASE_URL = 'http://localhost:8090/api/coupons';
 
 export const getCoupons = async () => {
     const response = await axios.get(API_BASE_URL);

@@ -24,7 +24,7 @@ const ReviewForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8083/api/reviews', formData, {
+      const response = await axios.post('http://localhost:8089/api/reviews', formData, {
         headers: { 'Content-Type': 'application/json' },
       });
       setResponseMessage('Review created successfully!');
