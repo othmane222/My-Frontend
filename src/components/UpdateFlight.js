@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
 const UpdateFlight = () => {
     const { id } = useParams(); // récupère l'ID du vol à modifier depuis l'URL
@@ -53,54 +54,122 @@ const UpdateFlight = () => {
     }
 
     return (
-        <div>
-            <h2>Modifier Vol</h2>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Départ :
-                    <input type="text" name="departure" value={flight.departure} onChange={handleChange} />
-                </label>
-                <label>
-                    Destination :
-                    <input type="text" name="destination" value={flight.destination} onChange={handleChange} />
-                </label>
-                <label>
-                    Horaire :
-                    <input type="datetime-local" name="schedule" value={flight.schedule} onChange={handleChange} />
-                </label>
-                <label>
-                    Capacité du vol :
-                    <input type="number" name="flightCapacity" value={flight.flightCapacity} onChange={handleChange} />
-                </label>
-                <label>
-                    Durée :
-                    <input type="number" name="duration" value={flight.duration} onChange={handleChange} />
-                </label>
-                <label>
-                    Compagnie :
-                    <input type="text" name="company" value={flight.company} onChange={handleChange} />
-                </label>
-                <label>
-                    Places disponibles :
-                    <input type="number" name="availableSeats" value={flight.availableSeats} onChange={handleChange} />
-                </label>
-                <label>
-                    Prix de base :
-                    <input type="number" name="basePrice" value={flight.basePrice} onChange={handleChange} />
-                </label>
+        <div className="container my-5">
+            <h2 className="text-center mb-4">Modifier Vol</h2>
+            <form onSubmit={handleSubmit} className="p-4 border rounded shadow-sm bg-light">
+                <div className="mb-3">
+                    <label className="form-label">Départ :</label>
+                    <input
+                        type="text"
+                        name="departure"
+                        value={flight.departure}
+                        onChange={handleChange}
+                        className="form-control"
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Destination :</label>
+                    <input
+                        type="text"
+                        name="destination"
+                        value={flight.destination}
+                        onChange={handleChange}
+                        className="form-control"
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Horaire :</label>
+                    <input
+                        type="datetime-local"
+                        name="schedule"
+                        value={flight.schedule}
+                        onChange={handleChange}
+                        className="form-control"
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Capacité du vol :</label>
+                    <input
+                        type="number"
+                        name="flightCapacity"
+                        value={flight.flightCapacity}
+                        onChange={handleChange}
+                        className="form-control"
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Durée :</label>
+                    <input
+                        type="number"
+                        name="duration"
+                        value={flight.duration}
+                        onChange={handleChange}
+                        className="form-control"
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Compagnie :</label>
+                    <input
+                        type="text"
+                        name="company"
+                        value={flight.company}
+                        onChange={handleChange}
+                        className="form-control"
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Places disponibles :</label>
+                    <input
+                        type="number"
+                        name="availableSeats"
+                        value={flight.availableSeats}
+                        onChange={handleChange}
+                        className="form-control"
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Prix de base :</label>
+                    <input
+                        type="number"
+                        name="basePrice"
+                        value={flight.basePrice}
+                        onChange={handleChange}
+                        className="form-control"
+                        required
+                    />
+                </div>
                 {flight.flightClasses.map((flightClass, index) => (
-                    <div key={index}>
-                        <label>
-                            Type de classe :
-                            <input type="text" name="flightClassType" value={flightClass.flightClassType} onChange={(e) => handleClassChange(index, e)} />
-                        </label>
-                        <label>
-                            Prix :
-                            <input type="number" name="price" value={flightClass.price} onChange={(e) => handleClassChange(index, e)} />
-                        </label>
+                    <div key={index} className="mb-3">
+                        <label className="form-label">Type de classe :</label>
+                        <input
+                            type="text"
+                            name="flightClassType"
+                            value={flightClass.flightClassType}
+                            onChange={(e) => handleClassChange(index, e)}
+                            className="form-control"
+                            required
+                        />
+                        <label className="form-label">Prix :</label>
+                        <input
+                            type="number"
+                            name="price"
+                            value={flightClass.price}
+                            onChange={(e) => handleClassChange(index, e)}
+                            className="form-control"
+                            required
+                        />
                     </div>
                 ))}
-                <button type="submit">Mettre à jour le vol</button>
+                <button type="submit" className="btn" style={{ backgroundColor: '#445E75', color: 'white' }}>
+                    Mettre à jour le vol
+                </button>
             </form>
         </div>
     );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
 const Admin = () => {
   const [updateId, setUpdateId] = useState('');
@@ -10,7 +11,6 @@ const Admin = () => {
   const [expirationDate, setExpirationDate] = useState('');
   const [coupons, setCoupons] = useState([]);
   const [showCoupons, setShowCoupons] = useState(false);
-
   const [showUpdateFlightInput, setShowUpdateFlightInput] = useState(false);
   const [showDeleteFlightInput, setShowDeleteFlightInput] = useState(false);
   const [showDeleteCouponInput, setShowDeleteCouponInput] = useState(false);
@@ -115,133 +115,187 @@ const Admin = () => {
     getAllCoupons();
   }, []);
 
+  const buttonStyle = {
+    backgroundColor: '#445E75', // Set your color here
+    color: '#fff', // White text for contrast
+    border: 'none', // Remove border if you want
+  };
+
   return (
-    <div className="admin-container">
-      <h1>Admin Dashboard</h1>
+    <div className="container my-5">
+      <h1 className="text-center mb-4">Admin Dashboard</h1>
 
       {/* Flight CRUD Operations */}
-      <div className="flight-crud">
-        <button onClick={() => navigate('/admin/create')}>Créer un vol</button>
-        <button onClick={() => setShowUpdateFlightInput(!showUpdateFlightInput)}>
-          Modifier un vol
-        </button>
-        {showUpdateFlightInput && (
-          <div>
-            <input
-              type="number"
-              placeholder="ID du vol"
-              value={updateId}
-              onChange={(e) => setUpdateId(e.target.value)}
-            />
-            <button onClick={handleUpdateFlightNavigation}>Confirmer</button>
-          </div>
-        )}
-        <button onClick={() => setShowDeleteFlightInput(!showDeleteFlightInput)}>
-          Supprimer un vol
-        </button>
-        {showDeleteFlightInput && (
-          <div>
-            <input
-              type="number"
-              placeholder="ID du vol"
-              value={deleteId}
-              onChange={(e) => setDeleteId(e.target.value)}
-            />
-            <button onClick={handleDeleteFlight}>Supprimer</button>
-          </div>
-        )}
-        <button onClick={() => navigate('/admin/read')}>Afficher les vols</button>
+      <div className="mb-5">
+        <h2>Gestion des Vols</h2>
+        <div className="d-flex flex-column gap-3">
+          <button onClick={() => navigate('/admin/create')} style={buttonStyle}>
+            Créer un vol
+          </button>
+          <button
+            onClick={() => setShowUpdateFlightInput(!showUpdateFlightInput)}
+            style={buttonStyle}
+          >
+            Modifier un vol
+          </button>
+          {showUpdateFlightInput && (
+            <div className="d-flex gap-3">
+              <input
+                type="number"
+                className="form-control"
+                placeholder="ID du vol"
+                value={updateId}
+                onChange={(e) => setUpdateId(e.target.value)}
+              />
+              <button onClick={handleUpdateFlightNavigation} style={buttonStyle}>
+                Confirmer
+              </button>
+            </div>
+          )}
+          <button
+            onClick={() => setShowDeleteFlightInput(!showDeleteFlightInput)}
+            style={buttonStyle}
+          >
+            Supprimer un vol
+          </button>
+          {showDeleteFlightInput && (
+            <div className="d-flex gap-3">
+              <input
+                type="number"
+                className="form-control"
+                placeholder="ID du vol"
+                value={deleteId}
+                onChange={(e) => setDeleteId(e.target.value)}
+              />
+              <button onClick={handleDeleteFlight} style={buttonStyle}>
+                Supprimer
+              </button>
+            </div>
+          )}
+          <button onClick={() => navigate('/admin/read')} style={buttonStyle}>
+            Afficher les vols
+          </button>
+        </div>
       </div>
 
       {/* Coupon CRUD Operations */}
-      <div className="coupon-crud">
-        <button onClick={() => setShowUpdateCouponInput(!showUpdateCouponInput)}>
-          Mettre à jour un coupon
-        </button>
-        {showUpdateCouponInput && (
-          <div>
-            <input
-              type="number"
-              placeholder="ID du coupon"
-              value={updateId}
-              onChange={(e) => setUpdateId(e.target.value)}
-            />
+      <div>
+        <h2>Gestion des Coupons</h2>
+        <div className="d-flex flex-column gap-3">
+          <button
+            onClick={() => setShowUpdateCouponInput(!showUpdateCouponInput)}
+            style={buttonStyle}
+          >
+            Mettre à jour un coupon
+          </button>
+          {showUpdateCouponInput && (
+            <div className="d-flex flex-column gap-3">
+              <input
+                type="number"
+                className="form-control"
+                placeholder="ID du coupon"
+                value={updateId}
+                onChange={(e) => setUpdateId(e.target.value)}
+              />
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Code Coupon"
+                value={couponCode}
+                onChange={(e) => setCouponCode(e.target.value)}
+              />
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Pourcentage de remise"
+                value={discount}
+                onChange={(e) => setDiscount(e.target.value)}
+              />
+              <input
+                type="date"
+                className="form-control"
+                value={expirationDate}
+                onChange={(e) => setExpirationDate(e.target.value)}
+              />
+              <button onClick={handleEditCoupon} style={buttonStyle}>
+                Mettre à jour
+              </button>
+            </div>
+          )}
+
+          <button onClick={handleCreateCoupon} style={buttonStyle}>
+            Créer un coupon
+          </button>
+          <div className="d-flex flex-column gap-3">
             <input
               type="text"
+              className="form-control"
               placeholder="Code Coupon"
               value={couponCode}
               onChange={(e) => setCouponCode(e.target.value)}
             />
             <input
               type="number"
+              className="form-control"
               placeholder="Pourcentage de remise"
               value={discount}
               onChange={(e) => setDiscount(e.target.value)}
             />
             <input
               type="date"
+              className="form-control"
               value={expirationDate}
               onChange={(e) => setExpirationDate(e.target.value)}
             />
-            <button onClick={handleEditCoupon}>Mettre à jour</button>
+            <button onClick={handleCreateCoupon} style={buttonStyle}>
+              Créer
+            </button>
           </div>
-        )}
 
-        <button onClick={handleCreateCoupon}>Créer un coupon</button>
-        <div>
-          <input
-            type="text"
-            placeholder="Code Coupon"
-            value={couponCode}
-            onChange={(e) => setCouponCode(e.target.value)}
-          />
-          <input
-            type="number"
-            placeholder="Pourcentage de remise"
-            value={discount}
-            onChange={(e) => setDiscount(e.target.value)}
-          />
-          <input
-            type="date"
-            value={expirationDate}
-            onChange={(e) => setExpirationDate(e.target.value)}
-          />
-          <button onClick={handleCreateCoupon}>Créer</button>
+          <button
+            onClick={() => setShowDeleteCouponInput(!showDeleteCouponInput)}
+            style={buttonStyle}
+          >
+            Supprimer un coupon
+          </button>
+          {showDeleteCouponInput && (
+            <div className="d-flex gap-3">
+              <input
+                type="number"
+                className="form-control"
+                placeholder="ID du coupon"
+                value={deleteId}
+                onChange={(e) => setDeleteId(e.target.value)}
+              />
+              <button onClick={handleDeleteCoupon} style={buttonStyle}>
+                Supprimer
+              </button>
+            </div>
+          )}
+
+          <button
+            onClick={() => setShowCoupons(!showCoupons)}
+            style={buttonStyle}
+          >
+            Afficher tous les coupons
+          </button>
+          {showCoupons && (
+            <div className="mt-4">
+              <h3>Liste des Coupons</h3>
+              {coupons.length === 0 ? (
+                <p>Aucun coupon disponible.</p>
+              ) : (
+                <ul className="list-group">
+                  {coupons.map((coupon) => (
+                    <li key={coupon.id} className="list-group-item">
+                      Code: {coupon.code}, Remise: {coupon.discountPercentage}%, Expiration: {coupon.expirationDate}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
         </div>
-
-        <button onClick={() => setShowDeleteCouponInput(!showDeleteCouponInput)}>
-          Supprimer un coupon
-        </button>
-        {showDeleteCouponInput && (
-          <div>
-            <input
-              type="number"
-              placeholder="ID du coupon"
-              value={deleteId}
-              onChange={(e) => setDeleteId(e.target.value)}
-            />
-            <button onClick={handleDeleteCoupon}>Supprimer</button>
-          </div>
-        )}
-
-        <button onClick={() => setShowCoupons(!showCoupons)}>Afficher tous les coupons</button>
-        {showCoupons && (
-          <div>
-            <h3>Liste des Coupons</h3>
-            {coupons.length === 0 ? (
-              <p>Aucun coupon disponible.</p>
-            ) : (
-              <ul>
-                {coupons.map((coupon) => (
-                  <li key={coupon.id}>
-                    Code: {coupon.code}, Remise: {coupon.discountPercentage}%, Expiration:{' '}
-                    {coupon.expirationDate}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        )}
       </div>
     </div>
   );

@@ -65,11 +65,11 @@ function App() {
         <Route
           path="/login"
           element={<Login setIsLoggedIn={setIsLoggedIn} />}
-        /> <Route path="/admin" element={<Admin />} />
+        /> <Route path="/admin" element={<><Admin /><Footer/></>} />
   <Route path="/admin/create" element={<CreateFlight />} />
   <Route path="/admin/update/:id" element={<UpdateFlightForm />} />
   <Route path="/admin/read" element={<FlightList />} />
-  <Route path="/login" element={<Login />} />
+  <Route path="/login" element={<><Navbar/><Login /><Footer/></>} />
   <Route path="/signup" element={<Signup />} />
   <Route path="/weather/:city" element={<WeatherPage />} />
   <Route path="/claims/create" element={<ClaimForm />} /> 
@@ -83,6 +83,8 @@ function App() {
   <Route path="/help" element={<><Navbar/><Help /><Footer/></>} />
   <Route path="/reservation/:flightId/payment" element={<><Navbar/><PaymentPage /><Footer/></>} />
   <Route path="/payment-form" element={<><Navbar/><StripeContainer/><Footer/></>} />
+  <Route path="/claims" element={<><Navbar/><ClaimForm/><Footer/></>} />
+
 
 
 </Routes>

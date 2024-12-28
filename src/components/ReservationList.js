@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
 const ReservationList = () => {
   const [reservations, setReservations] = useState([]);
@@ -18,20 +19,20 @@ const ReservationList = () => {
   }, []);
 
   return (
-    <div className="reservation-list">
-      <h2>Reservations</h2>
-      <ul>
+    <div className="container my-5">
+      <h2 className="text-center mb-4">Liste des Réservations</h2>
+      <ul className="list-group">
         {reservations.map((reservation) => (
-          <li key={reservation.id}>
-            <p>Reservation ID: {reservation.id}</p>
-            <p>Flight ID: {reservation.flightId}</p>
-            <p>Passengers:</p>
-            <ul>
+          <li key={reservation.id} className="list-group-item p-4 mb-3 shadow-sm bg-light rounded">
+            <h4 className="text-primary">Réservation ID: {reservation.id}</h4>
+            <p><strong>Vol ID :</strong> {reservation.flightId}</p>
+            <h5>Passagers :</h5>
+            <ul className="list-group">
               {reservation.passengers.map((passenger) => (
-                <li key={passenger.cin}>
-                  <p>CIN: {passenger.cin}</p>
-                  <p>Name: {passenger.name}</p>
-                  <p>Email: {passenger.email}</p>
+                <li key={passenger.cin} className="list-group-item">
+                  <p><strong>CIN:</strong> {passenger.cin}</p>
+                  <p><strong>Nom:</strong> {passenger.name}</p>
+                  <p><strong>Email:</strong> {passenger.email}</p>
                 </li>
               ))}
             </ul>

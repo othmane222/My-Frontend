@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
 const CreateFlightForm = () => {
     const [flight, setFlight] = useState({
@@ -45,49 +46,113 @@ const CreateFlightForm = () => {
     };
 
     return (
-        <div>
-            <h2>Create Flight</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Departure:</label>
-                    <input type="text" name="departure" value={flight.departure} onChange={handleInputChange} required />
+        <div className="container my-5">
+            <h2 className="text-center mb-4">Create Flight</h2>
+            <form onSubmit={handleSubmit} className="p-4 border rounded shadow-sm bg-light">
+                <div className="mb-3">
+                    <label className="form-label">Departure:</label>
+                    <input
+                        type="text"
+                        name="departure"
+                        value={flight.departure}
+                        onChange={handleInputChange}
+                        className="form-control"
+                        required
+                    />
                 </div>
-                <div>
-                    <label>Destination:</label>
-                    <input type="text" name="destination" value={flight.destination} onChange={handleInputChange} required />
+                <div className="mb-3">
+                    <label className="form-label">Destination:</label>
+                    <input
+                        type="text"
+                        name="destination"
+                        value={flight.destination}
+                        onChange={handleInputChange}
+                        className="form-control"
+                        required
+                    />
                 </div>
-                <div>
-                    <label>Schedule:</label>
-                    <input type="datetime-local" name="schedule" value={flight.schedule} onChange={handleInputChange} required />
+                <div className="mb-3">
+                    <label className="form-label">Schedule:</label>
+                    <input
+                        type="datetime-local"
+                        name="schedule"
+                        value={flight.schedule}
+                        onChange={handleInputChange}
+                        className="form-control"
+                        required
+                    />
                 </div>
-                <div>
-                    <label>Flight Capacity:</label>
-                    <input type="number" name="flightCapacity" value={flight.flightCapacity} onChange={handleInputChange} required />
+                <div className="mb-3">
+                    <label className="form-label">Flight Capacity:</label>
+                    <input
+                        type="number"
+                        name="flightCapacity"
+                        value={flight.flightCapacity}
+                        onChange={handleInputChange}
+                        className="form-control"
+                        required
+                    />
                 </div>
-                <div>
-                    <label>Duration:</label>
-                    <input type="number" name="duration" value={flight.duration} onChange={handleInputChange} required />
+                <div className="mb-3">
+                    <label className="form-label">Duration:</label>
+                    <input
+                        type="number"
+                        name="duration"
+                        value={flight.duration}
+                        onChange={handleInputChange}
+                        className="form-control"
+                        required
+                    />
                 </div>
-                <div>
-                    <label>Company:</label>
-                    <input type="text" name="company" value={flight.company} onChange={handleInputChange} required />
+                <div className="mb-3">
+                    <label className="form-label">Company:</label>
+                    <input
+                        type="text"
+                        name="company"
+                        value={flight.company}
+                        onChange={handleInputChange}
+                        className="form-control"
+                        required
+                    />
                 </div>
-                <div>
-                    <label>Available Seats:</label>
-                    <input type="number" name="availableSeats" value={flight.availableSeats} onChange={handleInputChange} required />
+                <div className="mb-3">
+                    <label className="form-label">Available Seats:</label>
+                    <input
+                        type="number"
+                        name="availableSeats"
+                        value={flight.availableSeats}
+                        onChange={handleInputChange}
+                        className="form-control"
+                        required
+                    />
                 </div>
-                <div>
-                    <label>Base Price:</label>
-                    <input type="number" name="basePrice" value={flight.basePrice} onChange={handleInputChange} required />
+                <div className="mb-3">
+                    <label className="form-label">Base Price:</label>
+                    <input
+                        type="number"
+                        name="basePrice"
+                        value={flight.basePrice}
+                        onChange={handleInputChange}
+                        className="form-control"
+                        required
+                    />
                 </div>
                 <h3>Flight Classes</h3>
                 {flightClasses.map((flightClass, index) => (
-                    <div key={index}>
-                        <label>{flightClass.flightClassType} Price:</label>
-                        <input type="number" value={flightClass.price} onChange={(e) => handleFlightClassChange(index, e.target.value)} required />
+                    <div key={index} className="mb-3">
+                        <label className="form-label">{flightClass.flightClassType} Price:</label>
+                        <input
+                            type="number"
+                            value={flightClass.price}
+                            onChange={(e) => handleFlightClassChange(index, e.target.value)}
+                            className="form-control"
+                            required
+                        />
                     </div>
                 ))}
-                <button type="submit">Create Flight</button>
+                <button type="submit" className="btn" style={{ backgroundColor: '#445E75', color: 'white' }}>
+                    Create Flight
+                </button>
             </form>
         </div>
     );

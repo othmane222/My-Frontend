@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../Styles/ReservationForm.css';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import { useParams, useNavigate } from 'react-router-dom';
 
 const ReservationForm = () => {
@@ -107,8 +107,8 @@ const ReservationForm = () => {
       setFormData((prevData) => ({
         ...prevData,
         flightId: selectedFlight.idFlight,
-        departure: selectedFlight.departure, // Store departure
-      destination: selectedFlight.destination,
+        departure: selectedFlight.departure,
+        destination: selectedFlight.destination,
         price: selectedFlight.basePrice,
       }));
     }
@@ -132,14 +132,12 @@ const ReservationForm = () => {
     }
   };
 
-  // Add reservation to the cart
   const addToCart = (reservation) => {
     const updatedCart = [...cart, reservation];
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart)); // Store updated cart in localStorage
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -158,10 +156,8 @@ const ReservationForm = () => {
 
       // Add the reservation to the cart after it's successfully created
       navigate(`/reservation/${formData.flightId}/payment`, {
-        
         state: { reservationData: formData },
-    });
-    
+      });
 
     } catch (error) {
       setResponseMessage('Error creating reservation. Please try again.');
@@ -170,10 +166,10 @@ const ReservationForm = () => {
   };
 
   return (
-    <div className="reservation-form">
+    <div className="container my-5">
       <h2>Create a Reservation</h2>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
+        <div className="form-group mb-3">
           <label>Flight ID:</label>
           <select
             name="flightId"
@@ -185,6 +181,7 @@ const ReservationForm = () => {
               }))
             }
             required
+            className="form-control"
           >
             <option value="">Select Flight</option>
             {flights.map((flight) => (
@@ -195,13 +192,14 @@ const ReservationForm = () => {
           </select>
         </div>
 
-        <div className="form-group">
+        <div className="form-group mb-3">
           <label>Flight Class Type:</label>
           <select
             name="flightClassType"
             value={formData.flightClassType}
             onChange={handleChange}
             required
+            className="form-control"
           >
             <option value="">Select Class</option>
             <option value="ECONOMY">Economy</option>
@@ -212,87 +210,116 @@ const ReservationForm = () => {
 
         <h3>Passengers</h3>
         {formData.passengers.map((passenger, index) => (
-          <div key={index} className="passenger-group">
-            <label>Name:</label>
-            <input
-              type="text"
-              value={passenger.name}
-              onChange={(e) => handlePassengerChange(index, 'name', e.target.value)}
-              required
-            />
-            <label>Email:</label>
-            <input
-              type="email"
-              value={passenger.email}
-              onChange={(e) => handlePassengerChange(index, 'email', e.target.value)}
-              required
-            />
-            <label>CIN:</label>
-            <input
-              type="text"
-              value={passenger.cin}
-              onChange={(e) => handlePassengerChange(index, 'cin', e.target.value)}
-              required
-            />
-            <label>Password:</label>
-            <input
-              type="password"
-              value={passenger.password}
-              onChange={(e) => handlePassengerChange(index, 'password', e.target.value)}
-              required
-            />
-            <label>Passport Number:</label>
-            <input
-              type="text"
-              value={passenger.passportNumber}
-              onChange={(e) => handlePassengerChange(index, 'passportNumber', e.target.value)}
-              required
-            />
-            <label>Age:</label>
-            <input
-              type="number"
-              value={passenger.age}
-              onChange={(e) => handlePassengerChange(index, 'age', e.target.value)}
-              required
-            />
-            <label>Passenger Type:</label>
-            <select
-              value={passenger.passengerType}
-              onChange={(e) => handlePassengerChange(index, 'passengerType', e.target.value)}
-              required
-            >
-              <option value="">Select Type</option>
-              <option value="ADULT">Adult</option>
-              <option value="CHILD">Child</option>
-              <option value="INFANT">Infant</option>
-            </select>
+          <div key={index} className="passenger-group mb-4">
+            <div className="form-group">
+              <label>Name:</label>
+              <input
+                type="text"
+                value={passenger.name}
+                onChange={(e) => handlePassengerChange(index, 'name', e.target.value)}
+                required
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <label>Email:</label>
+              <input
+                type="email"
+                value={passenger.email}
+                onChange={(e) => handlePassengerChange(index, 'email', e.target.value)}
+                required
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <label>CIN:</label>
+              <input
+                type="text"
+                value={passenger.cin}
+                onChange={(e) => handlePassengerChange(index, 'cin', e.target.value)}
+                required
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <label>Password:</label>
+              <input
+                type="password"
+                value={passenger.password}
+                onChange={(e) => handlePassengerChange(index, 'password', e.target.value)}
+                required
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <label>Passport Number:</label>
+              <input
+                type="text"
+                value={passenger.passportNumber}
+                onChange={(e) => handlePassengerChange(index, 'passportNumber', e.target.value)}
+                required
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <label>Age:</label>
+              <input
+                type="number"
+                value={passenger.age}
+                onChange={(e) => handlePassengerChange(index, 'age', e.target.value)}
+                required
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <label>Passenger Type:</label>
+              <select
+                value={passenger.passengerType}
+                onChange={(e) => handlePassengerChange(index, 'passengerType', e.target.value)}
+                required
+                className="form-control"
+              >
+                <option value="">Select Type</option>
+                <option value="ADULT">Adult</option>
+                <option value="CHILD">Child</option>
+                <option value="INFANT">Infant</option>
+              </select>
+            </div>
           </div>
         ))}
-        <button type="button" onClick={addPassenger}>
+        <button type="button" onClick={addPassenger} className="btn btn-secondary mb-3">
           Add Passenger
         </button>
 
         <h3>Luggage</h3>
         {formData.luggage.map((luggage, index) => (
-          <div key={index} className="luggage-group">
-            <label>Weight:</label>
-            <input
-              type="number"
-              value={luggage.weight}
-              onChange={(e) => handleLuggageChange(index, e.target.value)}
-              required
-            />
+          <div key={index} className="luggage-group mb-3">
+            <div className="form-group">
+              <label>Weight (kg):</label>
+              <input
+                type="number"
+                value={luggage.weight}
+                onChange={(e) => handleLuggageChange(index, e.target.value)}
+                required
+                className="form-control"
+              />
+            </div>
           </div>
         ))}
-        <button type="button" onClick={addLuggage}>
+        <button type="button" onClick={addLuggage} className="btn btn-secondary mb-3">
           Add Luggage
         </button>
 
-        <button type="submit">Submit</button>
+        <div className="form-group">
+          <button type="submit" className="btn btn-secondary mb-3">Submit Reservation</button>
+        </div>
       </form>
 
-      {responseMessage && <p>{responseMessage}</p>}
-      
+      {responseMessage && (
+        <div className="alert alert-info mt-4">
+          {responseMessage}
+        </div>
+      )}
     </div>
   );
 };

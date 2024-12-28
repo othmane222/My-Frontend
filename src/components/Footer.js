@@ -19,7 +19,7 @@ const Footer = () => {
 
           {/* Center Section: Terms and Policies */}
           <div className="col-md-4 text-center">
-            <p>2024 © Ryanair DAC. All rights reserved.</p>
+            <p>2024 ©  All rights reserved.</p>
             <p>
               A card payment processing fee may be applied to your booking. This fee will be reflected in the total price
               once the card number has been entered. Please see our GTCC for more details.

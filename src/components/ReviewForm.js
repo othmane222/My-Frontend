@@ -71,7 +71,7 @@ const ReviewForm = () => {
         </label>
         <label>
           Rating:
-          <input
+          <input 
             type="number"
             name="rating"
             value={formData.rating}
@@ -81,7 +81,7 @@ const ReviewForm = () => {
             required
           />
         </label>
-        <button type="submit">Submit Review</button>
+        <button type="submit" className="btn btn-secondary mb-3" >Submit Review</button>
       </form>
       {responseMessage && <p>{responseMessage}</p>}
     </div>

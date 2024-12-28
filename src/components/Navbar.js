@@ -92,24 +92,56 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
                 Language
               </Link>
             </li>
+            
+            {/* New Claims button */}
+            <li className="nav-item">
+              <Link
+                className="nav-link"
+                to="/claims"
+                style={{
+                  color: '#F1EFE5',
+                  fontWeight: '500',
+                }}
+              >
+                Claims
+              </Link>
+            </li>
 
             {/* Conditionally render Login or Logout button */}
             {!isLoggedIn ? (
-              <li className="nav-item">
-                <Link
-                  className="btn"
-                  to="/login"
-                  style={{
-                    backgroundColor: '#F1EFE5',
-                    color: '#445E75',
-                    fontWeight: '500',
-                    padding: '5px 20px',
-                    borderRadius: '5px',
-                  }}
-                >
-                  Login
-                </Link>
-              </li>
+              <>
+                <li className="nav-item">
+                  <Link
+                    className="btn"
+                    to="/login"
+                    style={{
+                      backgroundColor: '#F1EFE5',
+                      color: '#445E75',
+                      fontWeight: '500',
+                      padding: '5px 20px',
+                      borderRadius: '5px',
+                      marginRight: '10px',
+                    }}
+                  >
+                    Login
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    className="btn"
+                    to="/signup"
+                    style={{
+                      backgroundColor: '#F1EFE5',
+                      color: '#445E75',
+                      fontWeight: '500',
+                      padding: '5px 20px',
+                      borderRadius: '5px',
+                    }}
+                  >
+                    Signup
+                  </Link>
+                </li>
+              </>
             ) : (
               <li className="nav-item">
                 <button

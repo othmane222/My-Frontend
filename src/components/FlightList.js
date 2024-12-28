@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
 const FlightList = () => {
     const [flights, setFlights] = useState([]);
@@ -18,23 +19,23 @@ const FlightList = () => {
     }, []);
 
     return (
-        <div>
-            <h2>Flight List</h2>
-            <ul>
+        <div className="container my-5">
+            <h2 className="text-center mb-4">Liste des Vols</h2>
+            <ul className="list-group">
                 {flights.map((flight) => (
-                    <li key={flight.idFlight}>
-                        <h3>{flight.departure} to {flight.destination}</h3>
-                        <p>Schedule: {new Date(flight.schedule).toLocaleString()}</p>
-                        <p>Flight Capacity: {flight.flightCapacity}</p>
-                        <p>Duration: {flight.duration} hours</p>
-                        <p>Company: {flight.company}</p>
-                        <p>Available Seats: {flight.availableSeats}</p>
-                        <p>Base Price: ${flight.basePrice}</p>
-                        <h4>Flight Classes:</h4>
-                        <ul>
+                    <li key={flight.idFlight} className="list-group-item p-4 mb-3 shadow-sm bg-light rounded">
+                        <h3 className="text-primary">{flight.departure} to {flight.destination}</h3>
+                        <p><strong>Horaire :</strong> {new Date(flight.schedule).toLocaleString()}</p>
+                        <p><strong>Capacité du vol :</strong> {flight.flightCapacity}</p>
+                        <p><strong>Durée :</strong> {flight.duration} heures</p>
+                        <p><strong>Compagnie :</strong> {flight.company}</p>
+                        <p><strong>Places disponibles :</strong> {flight.availableSeats}</p>
+                        <p><strong>Prix de base :</strong> ${flight.basePrice}</p>
+                        <h4 className="mt-3">Types de Classes de Vol :</h4>
+                        <ul className="list-group">
                             {flight.flightClasses.map((flightClass, index) => (
-                                <li key={index}>
-                                    {flightClass.flightClassType}: ${flightClass.price}
+                                <li key={index} className="list-group-item">
+                                    <strong>{flightClass.flightClassType}</strong>: ${flightClass.price}
                                 </li>
                             ))}
                         </ul>

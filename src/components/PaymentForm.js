@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import jsPDF from "jspdf";
-import '../Styles/PaymentForm.css';
+import '../Styles/PaymentForm.css'; // Import custom styles if needed
 
 const CARD_OPTIONS = {
   iconStyle: "solid",
@@ -13,8 +13,10 @@ const CARD_OPTIONS = {
       color: "#fff",
       fontWeight: 500,
       fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
-      fontSize: "16px",
+      fontSize: "18px", // Increased font size for better visibility
       fontSmoothing: "antialiased",
+      backgroundColor: "#000", // Set background color to black
+      padding: "12px", // Added padding for larger input space
       ":-webkit-autofill": { color: "#fce883" },
       "::placeholder": { color: "#87bbfd" },
     },
@@ -33,9 +35,7 @@ export default function PaymentForm() {
   const location = useLocation();
   const { reservationData } = location.state || {}; // Ensure location.state is available
 
-  const {
-    finalPrice,
-  } = location.state || { finalPrice: 0 };
+  const { finalPrice } = location.state || { finalPrice: 0 };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -102,25 +102,30 @@ export default function PaymentForm() {
   };
 
   return (
-    <>
+    <div className="container mt-5">
       {!success ? (
-        <form onSubmit={handleSubmit}>
-          <fieldset className="FormGroup">
-            <div className="FormRow">
-              <CardElement options={CARD_OPTIONS} />
+        <form onSubmit={handleSubmit} className="card p-4 shadow-sm">
+          <h3 className="text-center mb-4">Payment Form</h3>
+          <fieldset className="mb-3">
+            <div className="form-row">
+              <CardElement options={CARD_OPTIONS} className="form-control" />
             </div>
           </fieldset>
-          <h3>${finalPrice.toFixed(2)}</h3>
-          <button>Pay</button>
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h4>Total: ${finalPrice.toFixed(2)}</h4>
+            <button type="submit" className="btn btn-primary" disabled={!stripe}>
+              Pay Now
+            </button>
+          </div>
         </form>
       ) : (
-        <div>
+        <div className="alert alert-success">
           <h2>Payment Successful!</h2>
           <p>Your ticket will be downloaded shortly.</p>
         </div>
       )}
 
-      {errorMessage && <div className="error">{errorMessage}</div>}
-    </>
+      {errorMessage && <div className="alert alert-danger mt-4">{errorMessage}</div>}
+    </div>
   );
 }

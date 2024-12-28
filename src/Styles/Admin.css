@@ -1,37 +1,82 @@
 .admin-container {
-    display: flex;
-    height: 100vh;
-  }
-  
-  .admin-menu {
-    width: 250px;
-    background-color: #f4f4f4;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .admin-menu button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .admin-menu button:hover {
-    background-color: #0056b3;
-  }
-  
-  .admin-content {
-    flex-grow: 1;
-    padding: 20px;
-    background-color: #f9f9f9;
-    overflow-y: auto;
-  }
-  
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.admin-title {
+  text-align: center;
+  font-size: 2.5em;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.section-container {
+  margin-bottom: 40px;
+}
+
+h2 {
+  font-size: 1.8em;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  text-align: center;
+}
+
+.primary {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.secondary {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.danger {
+  background-color: #f44336;
+  color: white;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-container input {
+  padding: 8px;
+  font-size: 1em;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.coupon-list {
+  margin-top: 20px;
+}
+
+.coupon-list ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.coupon-list li {
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.coupon-list li:last-child {
+  border-bottom: none;
+}

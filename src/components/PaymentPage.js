@@ -14,12 +14,11 @@ const PaymentPage = () => {
   const [couponError, setCouponError] = useState('');
   const [loading, setLoading] = useState(false);
 
-
   if (!reservationData) {
-    return <div>Error: Reservation data not found!</div>;
+    return <div className="alert alert-danger">Error: Reservation data not found!</div>;
   }
 
-  const { passengers, price} = reservationData;
+  const { passengers, price } = reservationData;
   const firstPassenger = passengers ? passengers[0] : {};
   const { email, cin } = firstPassenger;
 
@@ -55,6 +54,7 @@ const PaymentPage = () => {
       setLoading(false);
     }
   };
+
   const proceedToPayment = () => {
     navigate('/payment-form', {
       state: {
@@ -65,30 +65,41 @@ const PaymentPage = () => {
   };
 
   return (
-    <div>
+    <div className="container mt-4">
       <h1>Reservation Details</h1>
-      <p><strong>Email:</strong> {email || 'Not available'}</p>
-      <p><strong>CIN:</strong> {cin || 'Not available'}</p>
-      <p><strong>Original Price:</strong> {price}</p>
+      <div className="mb-3">
+        <p><strong>Email:</strong> {email || 'Not available'}</p>
+        <p><strong>CIN:</strong> {cin || 'Not available'}</p>
+        <p><strong>Original Price:</strong> ${price}</p>
+      </div>
 
-      <div>
+      <div className="mb-4">
         <h3>Apply Coupon</h3>
-        <input
-          type="text"
-          value={couponCode}
-          onChange={handleCouponChange}
-          placeholder="Enter coupon code"
-        />
-        <button onClick={applyCoupon} disabled={loading}>
-          {loading ? 'Applying...' : 'Apply Coupon'}
-        </button>
-        {couponError && <p style={{ color: 'red' }}>{couponError}</p>}
+        <div className="input-group mb-3">
+          <input
+            type="text"
+            className="form-control"
+            value={couponCode}
+            onChange={handleCouponChange}
+            placeholder="Enter coupon code"
+          />
+          <button
+            className="btn btn-secondary mb-3"
+            onClick={applyCoupon}
+            disabled={loading}
+          >
+            {loading ? 'Applying...' : 'Apply Coupon'}
+          </button>
+        </div>
+        {couponError && <p className="text-danger">{couponError}</p>}
         {finalPrice !== price && (
-          <p><strong>Discounted Price:</strong> {finalPrice}</p>
+          <p><strong>Discounted Price:</strong> ${finalPrice}</p>
         )}
       </div>
 
-      <button onClick={proceedToPayment}>Proceed to Payment</button>
+      <button className="btn btn-secondary mb-3" onClick={proceedToPayment}>
+        Proceed to Payment
+      </button>
     </div>
   );
 };

@@ -1,77 +1,147 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Use useNavigate instead of useHistory
 
-export default function LoginForm({ setIsLoggedIn }) {
-  const [username, setUsername] = useState("");
+// Ensure credentials are included globally for Axios requests
+axios.defaults.withCredentials = true;
+
+const Login = () => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate(); // useNavigate hook to handle redirection
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+
     try {
-      // Default userType is "USER"
-      const userType = "USER"; 
-
-      // Construct the login URL with query parameters
-      const loginUrl = `http://localhost:8888/auth/login?username=${username}&password=${password}&userType=${userType}`;
-
-      const response = await axios.post(loginUrl, {}, { withCredentials: true });
+      const response = await axios.post(
+        "http://localhost:9093/login",
+        { email, password },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
       if (response.status === 200) {
-        console.log("Login successful!");
-
-        // Store user data in localStorage
-        localStorage.setItem("user", JSON.stringify(response.data));
-
-        // Set isLoggedIn state to true
-        setIsLoggedIn(true);
-
-        // Check if the email is 'admin@gmail.com'
-        if (username === "admin@gmail.com") {
-          navigate("/admin"); // Redirect to /admin if email matches
-        } else {
-          navigate("/"); // Redirect to home or dashboard for USER
-        }
-      } else {
-        setErrorMessage("Invalid credentials. Please try again.");
+        navigate("/dashboard");
       }
-    } catch (error) {
-      console.error("Login error:", error);
-      setErrorMessage("There was an issue with the login request.");
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("Invalid credentials. Please try again.");
     }
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit} className="login-form">
-        <div className="form-group">
-          <label htmlFor="username">Email:</label>
+    <div
+      className="login-container"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        backgroundColor: "#ffffff",
+      }}
+    >
+      <h1 style={{ marginBottom: "20px", color: "#000" }}>Login</h1>
+      <form
+        onSubmit={handleLogin}
+        style={{
+          width: "100%",
+          maxWidth: "400px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "15px",
+        }}
+      >
+        <div>
+          <label
+            htmlFor="email"
+            style={{
+              display: "block",
+              marginBottom: "5px",
+              fontWeight: "bold",
+              color: "#000",
+            }}
+          >
+            Email:
+          </label>
           <input
             type="email"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
-            placeholder="Enter your email"
+            style={{
+              width: "100%",
+              padding: "10px",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
+            }}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
+        <div>
+          <label
+            htmlFor="password"
+            style={{
+              display: "block",
+              marginBottom: "5px",
+              fontWeight: "bold",
+              color: "#000",
+            }}
+          >
+            Password:
+          </label>
           <input
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            placeholder="Enter your password"
+            style={{
+              width: "100%",
+              padding: "10px",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
+            }}
           />
         </div>
-        {errorMessage && <div className="error-message">{errorMessage}</div>}
-        <button type="submit" className="login-button">Login</button>
+        <button
+          type="submit"
+          style={{
+            backgroundColor: "#007bff",
+            color: "#fff",
+            border: "none",
+            padding: "10px",
+            borderRadius: "4px",
+            cursor: "pointer",
+            fontWeight: "bold",
+            textAlign: "center",
+          }}
+        >
+          Login
+        </button>
       </form>
+      <button
+        onClick={() => navigate("/password-recovery")}
+        style={{
+          marginTop: "10px",
+          backgroundColor: "transparent",
+          color: "#007bff",
+          border: "none",
+          cursor: "pointer",
+          fontWeight: "bold",
+          textDecoration: "underline",
+        }}
+      >
+        Forgot Password?
+      </button>
+      {error && (
+        <p style={{ color: "red", marginTop: "10px" }}>{error}</p>
+      )}
     </div>
   );
-}
+};
+
+export default Login;
