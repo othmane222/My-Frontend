@@ -28,6 +28,7 @@ import UsefulLinks from './components/UsefulLinks';
 import { Help } from '@mui/icons-material';
 import SearchFlight from './components/SearchFlight';
 import { CartProvider } from './components/CartContext';
+import PaymentPage from './components/PaymentPage';
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
   <Route path="/users" element={<UserManagement />} />
   <Route path="/reservation/:flightId" element={<><Navbar/><ReservationForm /><Footer/></>} /> {/* Route for reservation with flightId */}
   <Route path="/help" element={<><Navbar/><Help /><Footer/></>} />
+  <Route path="/reservation/:flightId/payment" element={<PaymentPage />} />
 
 
 </Routes>

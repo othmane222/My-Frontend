@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../Styles/ReservationForm.css';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const ReservationForm = () => {
   const { flightId: flightIdFromUrl } = useParams(); // Get flightId from URL
   const [formData, setFormData] = useState({
     flightId: '',        // Store the selected flight ID
     flightClassType: '',
+    price: '',
     passengers: [],
     luggage: [],
   });
@@ -15,6 +16,7 @@ const ReservationForm = () => {
   const [responseMessage, setResponseMessage] = useState('');
   const [flights, setFlights] = useState([]); // State to store available flights
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []); // Retrieve cart from localStorage
+  const navigate = useNavigate(); // For navigation
 
   // Fetch available flights from the backend
   useEffect(() => {
@@ -31,6 +33,7 @@ const ReservationForm = () => {
             setFormData((prevData) => ({
               ...prevData,
               flightId: matchedFlight.idFlight,
+              price: matchedFlight.basePrice,
             }));
           }
         }
@@ -102,6 +105,7 @@ const ReservationForm = () => {
       setFormData((prevData) => ({
         ...prevData,
         flightId: selectedFlight.idFlight,
+        price: selectedFlight.basePrice,
       }));
     }
   };
@@ -149,7 +153,12 @@ const ReservationForm = () => {
       console.log(response.data);
 
       // Add the reservation to the cart after it's successfully created
-      addToCart(response.data);
+      navigate(`/reservation/${formData.flightId}/payment`, {
+        
+        state: { reservationData: formData },
+    });
+    
+
     } catch (error) {
       setResponseMessage('Error creating reservation. Please try again.');
       console.error(error);
@@ -279,6 +288,7 @@ const ReservationForm = () => {
       </form>
 
       {responseMessage && <p>{responseMessage}</p>}
+      
     </div>
   );
 };
