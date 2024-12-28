@@ -1,7 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
+  const navigate = useNavigate();
+
+  // Handle logout
+  const handleLogout = () => {
+    localStorage.removeItem('user'); // Remove user info from localStorage
+    setIsLoggedIn(false); // Update the state in App.js
+    navigate('/'); // Redirect to home page
+  };
+
   return (
     <nav
       className="navbar navbar-expand-lg"
@@ -83,21 +92,41 @@ const Navbar = () => {
                 Language
               </Link>
             </li>
-            <li className="nav-item">
-              <Link
-                className="btn"
-                to="/signup"
-                style={{
-                  backgroundColor: '#F1EFE5',
-                  color: '#445E75',
-                  fontWeight: '500',
-                  padding: '5px 20px',
-                  borderRadius: '5px',
-                }}
-              >
-                Login
-              </Link>
-            </li>
+
+            {/* Conditionally render Login or Logout button */}
+            {!isLoggedIn ? (
+              <li className="nav-item">
+                <Link
+                  className="btn"
+                  to="/login"
+                  style={{
+                    backgroundColor: '#F1EFE5',
+                    color: '#445E75',
+                    fontWeight: '500',
+                    padding: '5px 20px',
+                    borderRadius: '5px',
+                  }}
+                >
+                  Login
+                </Link>
+              </li>
+            ) : (
+              <li className="nav-item">
+                <button
+                  className="btn"
+                  onClick={handleLogout}
+                  style={{
+                    backgroundColor: '#F1EFE5',
+                    color: '#445E75',
+                    fontWeight: '500',
+                    padding: '5px 20px',
+                    borderRadius: '5px',
+                  }}
+                >
+                  Logout
+                </button>
+              </li>
+            )}
           </ul>
         </div>
       </div>

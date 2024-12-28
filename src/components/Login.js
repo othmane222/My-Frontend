@@ -1,59 +1,77 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthProvider'; // Ensure this import is properly set up
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Use useNavigate instead of useHistory
 
-const Signup = () => {
-  const [cin, setCin] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState('STUDENT'); // Default role to 'STUDENT'
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
-  const { setUser } = useAuth();
+export default function LoginForm({ setIsLoggedIn }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate(); // useNavigate hook to handle redirection
 
-  const handleSignup = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const newUser = { cin, email, password, role };
-      const response = await axios.post('http://localhost:8083/users', newUser);
-      localStorage.setItem('token', response.data.token); // Assuming JWT token is sent in response
-      setUser(response.data); // Set the user data in context
-      navigate('/dashboard'); // Redirect to the dashboard on successful signup
-    } catch (err) {
-      setError('Signup failed');
-      console.error('Signup error:', err);
+      // Default userType is "USER"
+      const userType = "USER"; 
+
+      // Construct the login URL with query parameters
+      const loginUrl = `http://localhost:8888/auth/login?username=${username}&password=${password}&userType=${userType}`;
+
+      const response = await axios.post(loginUrl, {}, { withCredentials: true });
+
+      if (response.status === 200) {
+        console.log("Login successful!");
+
+        // Store user data in localStorage
+        localStorage.setItem("user", JSON.stringify(response.data));
+
+        // Set isLoggedIn state to true
+        setIsLoggedIn(true);
+
+        // Check if the email is 'admin@gmail.com'
+        if (username === "admin@gmail.com") {
+          navigate("/admin"); // Redirect to /admin if email matches
+        } else {
+          navigate("/"); // Redirect to home or dashboard for USER
+        }
+      } else {
+        setErrorMessage("Invalid credentials. Please try again.");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setErrorMessage("There was an issue with the login request.");
     }
   };
 
   return (
-    <div>
-      <h1>Signup</h1>
-      <form onSubmit={handleSignup}>
-        <div>
-          <label>CIN:</label>
-          <input type="text" value={cin} onChange={(e) => setCin(e.target.value)} required />
+    <div className="login-container">
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit} className="login-form">
+        <div className="form-group">
+          <label htmlFor="username">Email:</label>
+          <input
+            type="email"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            placeholder="Enter your email"
+          />
         </div>
-        <div>
-          <label>Email:</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            placeholder="Enter your password"
+          />
         </div>
-        <div>
-          <label>Password:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        </div>
-        <div>
-          <label>Role:</label>
-          <select value={role} onChange={(e) => setRole(e.target.value)} required>
-            <option value="STUDENT">Student</option>
-            <option value="TEACHER">Teacher</option>
-          </select>
-        </div>
-        <button type="submit">Signup</button>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
+        <button type="submit" className="login-button">Login</button>
       </form>
     </div>
   );
-};
-
-export default Signup;
+}

@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const PaymentPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const reservationData = location.state?.reservationData;
 
   const [couponCode, setCouponCode] = useState('');
   const [finalPrice, setFinalPrice] = useState(reservationData?.price || 0);
+  const [departure, setDeparture] = useState(reservationData?.departure);
+  const [destination, setDestination] = useState(reservationData?.destination);
   const [couponError, setCouponError] = useState('');
   const [loading, setLoading] = useState(false);
+
 
   if (!reservationData) {
     return <div>Error: Reservation data not found!</div>;
   }
 
-  const { passengers, price } = reservationData;
+  const { passengers, price} = reservationData;
   const firstPassenger = passengers ? passengers[0] : {};
   const { email, cin } = firstPassenger;
 
@@ -51,6 +55,14 @@ const PaymentPage = () => {
       setLoading(false);
     }
   };
+  const proceedToPayment = () => {
+    navigate('/payment-form', {
+      state: {
+        finalPrice,
+        reservationData,
+      },
+    });
+  };
 
   return (
     <div>
@@ -76,7 +88,7 @@ const PaymentPage = () => {
         )}
       </div>
 
-      <button>Proceed to Payment</button>
+      <button onClick={proceedToPayment}>Proceed to Payment</button>
     </div>
   );
 };

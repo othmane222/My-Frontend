@@ -1,4 +1,5 @@
 import './App.css';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Navbar from './components/Navbar';
@@ -29,16 +30,42 @@ import { Help } from '@mui/icons-material';
 import SearchFlight from './components/SearchFlight';
 import { CartProvider } from './components/CartContext';
 import PaymentPage from './components/PaymentPage';
+import PaymentForm from './components/PaymentForm';
+import StripeContainer from './components/StripeContainer';
+
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Check login status on initial load
+  useEffect(() => {
+    const user = localStorage.getItem('user'); // Check if user is logged in
+    if (user) {
+      setIsLoggedIn(true); // Set login state to true if user exists in localStorage
+    }
+  }, []);
   return (
     <div className="App">
       <Router>
         <AuthProvider>
         <CartProvider> 
       <Routes>
-      <Route path="/" element={<><Navbar/><SearchFlight/><ExploreWorld/><UsefulLinks/><Footer/></>} />
-  <Route path="/admin" element={<Admin />} />
+      <Route
+          path="/"
+          element={
+            <>
+              <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+              <SearchFlight />
+              <ExploreWorld />
+              <UsefulLinks />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/login"
+          element={<Login setIsLoggedIn={setIsLoggedIn} />}
+        /> <Route path="/admin" element={<Admin />} />
   <Route path="/admin/create" element={<CreateFlight />} />
   <Route path="/admin/update/:id" element={<UpdateFlightForm />} />
   <Route path="/admin/read" element={<FlightList />} />
@@ -49,12 +76,13 @@ function App() {
   <Route path="/password-recovery" element={<PasswordRecoveryForm />} />
   <Route path="/reviews" element={<><Navbar/><ReviewForm /><Footer/></>} />
   <Route path="/create-reservation" element={<ReservationForm />} />
-  <Route path="/reservations" element={<ReservationList />} />
+  <Route path="/reservations" element={<><Navbar/><ReservationList /><Footer/></>} />
   <Route path="/passengers" element={<PassengerList />} />
   <Route path="/users" element={<UserManagement />} />
   <Route path="/reservation/:flightId" element={<><Navbar/><ReservationForm /><Footer/></>} /> {/* Route for reservation with flightId */}
   <Route path="/help" element={<><Navbar/><Help /><Footer/></>} />
-  <Route path="/reservation/:flightId/payment" element={<PaymentPage />} />
+  <Route path="/reservation/:flightId/payment" element={<><Navbar/><PaymentPage /><Footer/></>} />
+  <Route path="/payment-form" element={<><Navbar/><StripeContainer/><Footer/></>} />
 
 
 </Routes>

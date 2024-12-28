@@ -6,7 +6,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 const ReservationForm = () => {
   const { flightId: flightIdFromUrl } = useParams(); // Get flightId from URL
   const [formData, setFormData] = useState({
-    flightId: '',        // Store the selected flight ID
+    flightId: '',
+    departure: '',        // Store departure
+    destination: '',      // Store the selected flight ID
     flightClassType: '',
     price: '',
     passengers: [],
@@ -105,6 +107,8 @@ const ReservationForm = () => {
       setFormData((prevData) => ({
         ...prevData,
         flightId: selectedFlight.idFlight,
+        departure: selectedFlight.departure, // Store departure
+      destination: selectedFlight.destination,
         price: selectedFlight.basePrice,
       }));
     }
